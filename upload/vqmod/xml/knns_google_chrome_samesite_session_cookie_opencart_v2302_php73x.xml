@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification
+	xmlns="https://github.com/vqmod/vqmod"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd"
+	>
+	<id><![CDATA[[VQMOD] Google Chrome SameSite Session Cookie for Opencart v2.3.0.2 with PHP >= 7.3.x]]></id>
+	<version>1.0.0</version>
+	<vqmver>2.6.6</vqmver>
+	<author>kanenas.net (aka Nikolas Branis) - nbran@kanenas.net</author>
+	<file path="catalog/controller/startup/" name="startup.php" error="log">
+		<operation error="skip">
+			<search position="replace"><![CDATA[setcookie('language', $code, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);]]></search>
+			<add><![CDATA[
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (start) <<
+			setcookie('language', $code, array('expires' => time() + 60 * 60 * 24 * 30, 'path' => '/', 'domain' => ini_get('session.cookie_domain'), 'samesite' => 'None', 'secure' => true, 'httponly' => true));
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (end) <<
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace"><![CDATA[setcookie('currency', $code, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);]]></search>
+			<add><![CDATA[
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (start) <<
+			setcookie('currency', $code, array('expires' => time() + 60 * 60 * 24 * 30, 'path' => '/', 'domain' => ini_get('session.cookie_domain'), 'samesite' => 'None', 'secure' => true, 'httponly' => true));
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (end) <<
+			]]></add>
+		</operation>
+	</file>
+	<file path="system/library/" name="session.php" error="log">
+		<operation error="skip">
+			<search position="after"><![CDATA[ini_set('session.cookie_httponly', 'On');]]></search>
+			<add><![CDATA[
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (start) <<
+			ini_set('session.cookie_secure', true);
+			ini_set('session.cookie_samesite', 'None');
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (end) <<
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace"><![CDATA[setcookie($key, $this->session_id, ini_get('session.cookie_lifetime'), ini_get('session.cookie_path'), ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));]]></search>
+			<add><![CDATA[
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (start) <<
+			setcookie($key, $this->session_id, array('expires' => ini_get('session.cookie_lifetime'), 'path' => ini_get('session.cookie_path'), 'domain' => ini_get('session.cookie_domain'), 'samesite' => 'None', 'secure' => true, 'httponly' => true));
+			// kanenas: knns_google_chrome_samesite_session_cookie_opencart_v2302_php73x.xml (end) <<
+			]]></add>
+		</operation>
+	</file>
+</modification>
